@@ -2,7 +2,7 @@
 from rest_framework import serializers
 
 from .models import User
-from .models import Question
+from .models import Question, Progress
 
 
 
@@ -24,14 +24,9 @@ class UserSerializer1(serializers.ModelSerializer):
         fields = ('id', 'name', 'email', 'password', 'score', 'questions')
 
 class ProgressSerializer(serializers.ModelSerializer):
-    questions = RemainingQuestionsSerializer(read_only=True, many=True)
-
-    def get_questions(self, obj):
-        return "%i" % obj.questions.count()
-
-    class Meta:
-        model = User
-        fields = ['questions']
+    serializers.serialize("json", Progress.objects.all(), fields=["first_name", "last_name"])
+    
+    
 
 class UserSerializer(serializers.Serializer):
 

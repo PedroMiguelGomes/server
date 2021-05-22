@@ -23,3 +23,8 @@ class User(models.Model):
     questions = models.ManyToManyField(Question)
     def __str__(self):
         return self.name
+
+class Progress(models.Model):
+    progress = models.FloatField()
+    def __str__(self):
+        return self.progress
