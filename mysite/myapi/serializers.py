@@ -1,9 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 
-from .models import User
-from .models import Question, Progress
-
+from .models import Question, Progress, User, Tasks
 
 
 class RemainingQuestionsSerializer(serializers.ModelSerializer):
@@ -11,33 +9,30 @@ class RemainingQuestionsSerializer(serializers.ModelSerializer):
         model = Question
         fields = ('id', 'chapter', 'number')
 
+class RemainingTasksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tasks
+        fields = ('id', 'task', 'type')
+
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ('id', 'question', 'answer1', 'answer2', 'answer3', 'answer4', 'correct', 'score', 'chapter', 'number')
+        fields = ('__all__')
 
-class UserSerializer1(serializers.ModelSerializer):
+class TasksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tasks
+        fields = ('__all__')
+
+class UserSerializer(serializers.ModelSerializer):
     questions = RemainingQuestionsSerializer(read_only=True, many=True)
+    tasksInst = RemainingTasksSerializer(read_only=True, many=True)
     
     class Meta:
         model = User
-        fields = ('id', 'name', 'email', 'password', 'score', 'questions')
+        fields = ('__all__')
 
 class ProgressSerializer(serializers.ModelSerializer):
-    serializers.serialize("json", Progress.objects.all(), fields=["first_name", "last_name"])
-    
-    
-
-class UserSerializer(serializers.Serializer):
-
-    id = serializers.IntegerField()
-    name = serializers.CharField(max_length=200)
-
-
-    def restore_object(self, attrs, instance=None):
-    
-        if instance is not None:
-            instance.id = attrs.get('id', instance.id)
-            instance.name = attrs.get('name', instance.name)
-            return instance
-        return UserSerializer(**attrs)
+    class Meta:
+        model = Progress
+        fields = ('__all__')

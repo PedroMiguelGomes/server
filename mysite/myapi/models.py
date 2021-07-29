@@ -15,16 +15,27 @@ class Question(models.Model):
     def __str__(self):
         return self.question
 
+class Tasks(models.Model):
+    task = models.CharField(max_length=255)
+    toDo = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+    centerService = models.CharField(max_length=60)
+    score = models.IntegerField()
+    def __str__(self):
+        return self.task
+
 class User(models.Model):
     name = models.CharField(max_length=60)
     email = models.CharField(max_length=60)
     password = models.CharField(max_length=60)
     score = models.IntegerField()
+    centerService = models.CharField(max_length=60)
     questions = models.ManyToManyField(Question)
+    tasksInst = models.ManyToManyField(Tasks)
     def __str__(self):
         return self.name
 
 class Progress(models.Model):
-    progress = models.FloatField()
+    progress = models.IntegerField()
     def __str__(self):
         return self.progress
