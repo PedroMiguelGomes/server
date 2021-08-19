@@ -75,10 +75,12 @@ class Progress(viewsets.ModelViewSet):
         total3 = len(Tasks.objects.filter(centerService="general"))
         aux3 = 1-(total_restante3/total3)
 
-        logger.error(aux1)
-        logger.error(aux2)
+        total_restante4 = len(User.objects.get(id=userID).questions.all().filter(chapter=3))
+        total4 = len(Question.objects.filter(chapter=3))
+        aux4 = 1-(total_restante4/total4)
 
-        data = {'progress': {'1': int(aux1*100), '2': int(aux2*100), '3': int(aux3*100)}}
+
+        data = {'progress': {'1': int(aux1*100), '2': int(aux2*100), '3': int(aux3*100), '4': int(aux4*100)}}
         return Response(data)
 
 
